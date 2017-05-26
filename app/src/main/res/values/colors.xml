@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">@color/black_type_2</color>
+    <color name="colorPrimaryDark">@color/black_type_1</color>
+    <color name="colorAccent">#4bb463</color>
+
+    <color name="black_type_1">#1B1E23</color>
+    <color name="black_type_2">#414141</color>
+
+    <color name="blue">#3F51B5</color>
+    <color name="orange">#fb872b</color>
+    <color name="blue_sky">#A0C8FF</color>
+    <color name="silver_2">#CACACA</color>
+    <color name="copper">#E1CDB5</color>
+    <color name="green_normal">#4BB462</color>
+    <color name="green_dark">#368146</color>
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_countries"
+        android:name="com.app.marketi.mcdcoop.view.events.EventFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".view.countrylist.CountryListActivity"
+        tools:listitem="@layout/country_list_item" />
+
+    <LinearLayout
+        android:id="@+id/layout_no_internet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_no_internet" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/no_internet_1"
+            android:textSize="@dimen/txt_size_xlarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/no_internet_2"
+            android:textSize="@dimen/txt_size_medium"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@drawable/button_green"
+            android:text="@string/btn_retry"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/txt_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center_horizontal"
+            android:text="@string/please_wait_country"
+            android:textColor="@color/green_normal"
+            android:textSize="@dimen/txt_size_large" />
+    </LinearLayout>
+
+</RelativeLayout>
+
+

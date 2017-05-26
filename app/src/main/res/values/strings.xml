@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Fun With Flags</string>
+    <string name="trans_splash">trans_splash</string>
+    <string name="trans_country">trans_country</string>
+    <string name="trans_country_txt">trans_country_txt</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_countries_list">Countries</string>
+    <string name="dummy_country_name">Country Name</string>
+    <string name="dummy_country_capital">Country Capital</string>
+    <string name="OK">OK</string>
+
+    <string name="please_wait">Please wait...</string>
+    <string name="please_wait_country">Please wait,\ndownloading list of countries.</string>
+    <string name="please_wait_info">Please wait,\nfetching information.</string>
+    <string name="no_internet_1">Oh no!</string>
+    <string name="no_internet_2">No internet found. Check your\n connection or try again.</string>
+    <string name="btn_retry">Retry</string>
+    <string name="title_search">Search</string>
+
+    <string name="txt_continent">Part of the world</string>
+    <string name="txt_capital">Capital</string>
+    <string name="txt_language">Language</string>
+    <string name="txt_territory">Territory,km\u00B2</string>
+    <string name="txt_population">Population</string>
+    <string name="txt_currency">Currency</string>
+    <string name="txt_domain">Internet Domain</string>
+    <string name="txt_pcode">Phone code</string>
+    <string name="txt_subregion">Sub Region</string>
+    <string name="txt_nativename">Native Name</string>
+    <string name="txt_wiki">Information</string>
+    <string name="txt_map">Map</string>
+    <string name="title_activity_wiki">WikiActivity</string>
+
+</resources>
