@@ -1,8 +1,5 @@
 package com.app.sid.funwithflags.data.database.schema;
 
-/**
- * Created by sudawat on 12/7/2015.
- */
 public final class CountriesTableSchema {
 
     private CountriesTableSchema() {
