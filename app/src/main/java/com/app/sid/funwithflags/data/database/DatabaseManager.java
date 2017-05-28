@@ -30,8 +30,8 @@ public class DatabaseManager<T> {
     @NonNull
     private BriteDatabase mBriteDBHelper;
 
-    public static final String DATABASE_NAME = "survey.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final String DATABASE_NAME = "funwithflags.db";
+    public static final int DATABASE_VERSION = 1;
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
