@@ -33,12 +33,10 @@ ext {
 
     // App dependencies
     supportLibraryVersion = '25.2.0'
-    firebaseVersion = '10.0.1'
     gsonVersion = '2.6.1'
     apacheVersion = '4.4.4'
     picassoVersion = '2.5.2'
     okhttpVersion = '2.4.0'
-    photoviewVersion = '1.2.7'
     guavaVersion = '18.0'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
