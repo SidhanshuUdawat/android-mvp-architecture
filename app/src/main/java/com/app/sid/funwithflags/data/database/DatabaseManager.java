@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import com.app.sid.fun.withflags.Injection;
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
 import com.app.sid.funwithflags.utils.pref.PrefManager;
 import com.squareup.sqlbrite.BriteDatabase;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 
 public class DatabaseManager<T> {
@@ -76,7 +76,7 @@ public class DatabaseManager<T> {
                 DATABASE_VERSION);
         this.mDatabase = this.mDbHelper.getWritableDatabase();
         SqlBrite sqlBrite = SqlBrite.create();
-        mBriteDBHelper = sqlBrite.wrapDatabaseHelper(mDbHelper, Injection.provideSchedulerProvider().io());
+        mBriteDBHelper = sqlBrite.wrapDatabaseHelper(mDbHelper, Schedulers.io());
     }
 
 

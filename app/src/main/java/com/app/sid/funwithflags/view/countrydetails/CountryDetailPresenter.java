@@ -1,130 +1,106 @@
 package com.app.sid.funwithflags.view.countrydetails;
 
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
 
-import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.data.DashboardRepository;
 import com.app.sid.funwithflags.datasets.remote.CountryDTO;
-import com.app.sid.funwithflags.network.FunWithFlagsService;
-import com.app.sid.funwithflags.utils.schedulers.BaseSchedulerProvider;
-import com.app.sid.funwithflags.view.FunWithFlagsApp;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class CountryDetailPresenter implements CountryDetailContract.Presenter {
+public class CountryDetailPresenter {
 
+    private static final String FLAG_URL = "http://www.geonames.org/flags/x/%s.gif";
     @NonNull
-    private final DashboardRepository mRepository;
+    private final CountryDetailMvp.View mView;
     @NonNull
-    private final CountryDetailContract.View mView;
-
+    private final CountryDetailMvp.Interactor mInteractor;
     @NonNull
     private CompositeSubscription mSubscriptions;
+    protected SelectedCountry mSelectedCountry;
+    protected String mFlagURL;
 
-    @NonNull
-    private final BaseSchedulerProvider mSchedulerProvider;
-
-
-    public CountryDetailPresenter(@NonNull DashboardRepository repository,
-                                  @NonNull CountryDetailContract.View view,
-                                  @NonNull BaseSchedulerProvider schedulerProvider) {
-        mRepository = checkNotNull(repository, "repository cannot be null");
+    public CountryDetailPresenter(@NonNull CountryDetailMvp.View view, SelectedCountry selectedCountry) {
         mView = checkNotNull(view, "view cannot be null!");
-        mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
+        mInteractor = new CountryDetailInteractor();
         mSubscriptions = new CompositeSubscription();
-        mView.setPresenter(this);
+        mSelectedCountry = selectedCountry;
+        mFlagURL = String.format(FLAG_URL, mSelectedCountry.getAlpha2Code().toLowerCase());
     }
 
 
-    @Override
-    public void fetchCountry(String countryName, String alphaCode) {
+    public void init() {
+        loadCachedFlag();
+        getCountry();
+    }
 
-        final CountryDTO country = new CountryDTO();
-        country.setName(countryName);
-        country.setAlpha2Code(alphaCode);
-
+    public void getCountry() {
         mSubscriptions.clear();
-        mView.showProgress();
-
-        Subscription subscription = mRepository.fetchCountry(country)
-                .subscribeOn(mSchedulerProvider.io())
-                .observeOn(mSchedulerProvider.ui())
+        Subscription subscription = mInteractor.getCountry(mSelectedCountry)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<CountryDTO>() {
                     @Override
                     public void onCompleted() {
-                        if (mView.isActive())
-                            mView.hideProgress();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (mView.isActive()) {
-                            mView.hideProgress();
-                        }
+
                     }
 
                     @Override
-                    public void onNext(CountryDTO countryDTOs) {
-                        if (mView.isActive()) {
-                            mView.hideProgress();
-                            mView.setupView(countryDTOs);
-                        }
+                    public void onNext(CountryDTO countryDTO) {
+                        loadCountryDetails(countryDTO);
                     }
                 });
         mSubscriptions.add(subscription);
     }
 
-    @Override
-    public void loadImage(final ImageView mImage, String alphaCode) {
-
-        final String mFlagURL = String.format(FunWithFlagsService.URL_FLAG_X,
-                alphaCode.toLowerCase());
-
-        Picasso.with(FunWithFlagsApp.getApp().appContext())
-                .load(mFlagURL)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(mImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        mView.stopImageProgress();
-                    }
-
-                    @Override
-                    public void onError() {
-                        //Try again online if cache failed
-                        Picasso.with(FunWithFlagsApp.getApp().appContext())
-                                .load(mFlagURL)
-                                .error(R.drawable.flag_ind)
-                                .into(mImage, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        mView.stopImageProgress();
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        mView.stopImageProgress();
-                                    }
-                                });
-                    }
-                });
+    public void loadCountryDetails(CountryDTO countryDTO) {
+        mView.setContinent(countryDTO.getRegion());
+        mView.setSubRegion(countryDTO.getSubregion());
+        mView.setCapital(countryDTO.getCapital());
+        mView.setTerritory(countryDTO.getArea());
+        mView.setPopulation(countryDTO.getPopulation());
+        mView.setNativeName(countryDTO.getNativeName());
+        mView.setLanguage(countryDTO.getLang());
+        mView.setCurrency(countryDTO.getCurrency());
+        mView.setDomain(countryDTO.getDomain());
+        mView.setPinCode(countryDTO.getPhonecode());
     }
 
-    @Override
-    public void subscribe() {
-
+    public void onWikiClicked() {
+        mView.showWikiPage(mSelectedCountry.getName());
     }
 
-    @Override
+    public void onMapClicked() {
+        mView.showMap(mSelectedCountry.getName());
+    }
+
+    public void onFlagLoadedSuccessfully() {
+        mView.showHeaderImageProgress(false);
+    }
+
+    public void loadCachedFlag() {
+        mView.loadCachedFlag(mFlagURL);
+    }
+
+    public void onCachedFlagLoadingFailed() {
+        mView.loadFlag(mFlagURL);
+    }
+
+    public void onFlagLoadingFailed() {
+        mView.showHeaderImageProgress(false);
+    }
+
     public void unsubscribe() {
         mSubscriptions.clear();
     }

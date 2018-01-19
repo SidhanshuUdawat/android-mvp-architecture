@@ -1,33 +1,22 @@
 package com.app.sid.funwithflags.view.wikiview;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
 import com.app.sid.funwithflags.utils.ProgressHelper;
 import com.app.sid.funwithflags.utils.Utils;
-import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity;
-import com.app.sid.funwithflags.view.countrydetails.CountryDetailContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;

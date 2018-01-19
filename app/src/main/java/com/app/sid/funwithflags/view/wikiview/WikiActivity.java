@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-import com.app.sid.fun.withflags.Injection;
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.utils.ActivityUtils;
 

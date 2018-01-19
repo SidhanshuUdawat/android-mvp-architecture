@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.app.sid.funwithflags.data.database.DatabaseManager;
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
 import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +122,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
         return mInstance.read(CountriesTableSchema.TABLE, sql, mapperFunction, obj.getName(), obj.getAlpha2Code());
     }
 
-    public Observable<CountryDTO> readSingleObserver(CountryDTO obj) {
+    public Observable<CountryDTO> getCountry(SelectedCountry obj) {
         String sql = String.format("SELECT * FROM %s WHERE %s LIKE ? AND %s LIKE ?",
                 CountriesTableSchema.TABLE, CountriesTableSchema.C_NAME, CountriesTableSchema.C_ALPHA_2_CODE);
         return mInstance.readSingle(CountriesTableSchema.TABLE, sql, mapperFunction, obj.getName(), obj.getAlpha2Code());

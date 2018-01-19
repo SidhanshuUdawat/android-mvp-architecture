@@ -1,6 +1,5 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.CountryDTO;
-import com.app.sid.funwithflags.network.FunWithFlagsService;
 import com.app.sid.funwithflags.view.FunWithFlagsApp;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -29,7 +27,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
-
+    String URL_FLAG_L = "http://www.geonames.org/flags/l/%s.gif";
+    
     public interface CountryInteraction {
         void OnListInteractionListener(View v, CountryDTO object, int pos);
     }
@@ -115,7 +114,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.mTxtCountryName.setText(holder.mItem.getName());
         holder.mTxtCountryCapital.setText(holder.mItem.getCapital());
 
-        final String mFlagURL = String.format(FunWithFlagsService.URL_FLAG_X
+        final String mFlagURL = String.format(URL_FLAG_L
                 , holder.mItem.getAlpha2Code().toLowerCase());
 
         Picasso.with(FunWithFlagsApp.getApp().appContext())
