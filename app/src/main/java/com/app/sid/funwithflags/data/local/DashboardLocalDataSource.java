@@ -27,7 +27,7 @@ public class DashboardLocalDataSource implements DashboardDataSource<DashboardDT
     private DashboardLocalDataSource(@NonNull Context context,
                                      @NonNull BaseSchedulerProvider schedulerProvider) {
 
-        countriesDataLoader = new CountriesDataLoader(context);
+        countriesDataLoader = new CountriesDataLoader();
 
     }
 
@@ -53,7 +53,7 @@ public class DashboardLocalDataSource implements DashboardDataSource<DashboardDT
 
     @Override
     public Observable<List<CountryDTO>> fetchCountries() {
-        return countriesDataLoader.readObserver();
+        return countriesDataLoader.getAllCountries();
     }
 
     @Override

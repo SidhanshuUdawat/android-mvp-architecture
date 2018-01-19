@@ -12,136 +12,95 @@ import com.app.sid.funwithflags.utils.schedulers.BaseSchedulerProvider;
 import java.util.List;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class CountryListPresenter implements CountryListContract.Presenter {
-    
+public class CountryListPresenter {
+
     @NonNull
     private final DashboardRepository mRepository;
     @NonNull
-    private final CountryListContract.View mView;
-
+    private final CountryListMvp.View mView;
     @NonNull
     private CompositeSubscription mSubscriptions;
-
     @NonNull
     private final BaseSchedulerProvider mSchedulerProvider;
+    @NonNull
+    private final CountryListInteractor mInteractor;
 
     public CountryListPresenter(@NonNull DashboardRepository repository,
-                                @NonNull CountryListContract.View view,
+                                @NonNull CountryListMvp.View view,
                                 @NonNull BaseSchedulerProvider schedulerProvider) {
         mRepository = checkNotNull(repository, "repository cannot be null");
         mView = checkNotNull(view, "view cannot be null!");
+        mInteractor = new CountryListInteractor();
         mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null");
         mSubscriptions = new CompositeSubscription();
-        mView.setPresenter(this);
     }
 
-    @Override
-    public void isDataAvailable() {
-        boolean isAvailable = PrefManager.getInstance().getBoolean(AppConst.IS_DATA_DOWNLOADED);
-        if (isAvailable) {
-            fetchCountries();
+
+    public void onPause() {
+        unsubscribe();
+    }
+
+    public void init() {
+        getCountries();
+    }
+
+    public void onRetry() {
+        mView.showInternetError(true);
+        getCountries();
+    }
+
+    public void getCountries() {
+        if (!mView.isInternetAvailable()) {
+            mView.showInternetError(true);
         } else {
-            if (!Connectivity.getInstance().isConnected()) {
-                mView.noInternet();
-            } else {
-                downloadData();
-            }
+            mView.showProgress(true);
+            mSubscriptions.clear();
+
+            Subscription subscription = mInteractor.getCountryList()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Subscriber<List<CountryDTO>>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            loadingCountriesFailed();
+                        }
+
+                        @Override
+                        public void onNext(List<CountryDTO> countryDTOS) {
+                            loadCountries(countryDTOS);
+                        }
+                    });
+
+            mSubscriptions.add(subscription);
         }
     }
 
-    @Override
-    public void downloadData() {
-        mSubscriptions.clear();
-        mView.showProgress();
-        PrefManager.getInstance().saveBoolean(AppConst.IS_DATA_DOWNLOADED, false);
-        mRepository.deleteAllCountries();
-
-        Observable<List<CountryDTO>> cashedObserver = (Observable<List<CountryDTO>>)
-                mRepository.getPreparedObservable(mRepository.downloadCountries(), CountryDTO.class, true, true);
-
-        Subscription subscription = cashedObserver
-                .flatMap(new Func1<List<CountryDTO>, Observable<CountryDTO>>() {
-                    @Override
-                    public Observable<CountryDTO> call(List<CountryDTO> countryDTOs) {
-                        return Observable.from(countryDTOs)
-                                .doOnNext(new Action1<CountryDTO>() {
-                                    @Override
-                                    public void call(CountryDTO countryDTO) {
-                                        mRepository.saveCountry(countryDTO);
-                                    }
-                                });
-                    }
-                }).toList()
-                .subscribe(new Subscriber<List<CountryDTO>>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.hideProgress();
-                        mView.noInternet();
-                    }
-
-                    @Override
-                    public void onNext(List<CountryDTO> countryDTOs) {
-                        PrefManager.getInstance().saveBoolean(AppConst.IS_DATA_DOWNLOADED, true);
-                        mView.refreshMessages(countryDTOs);
-                    }
-                });
-        mSubscriptions.add(subscription);
+    private void loadingCountriesFailed() {
+        mView.showProgress(false);
+        mView.showInternetError(true);
     }
 
-    @Override
-    public void fetchCountries() {
-        mSubscriptions.clear();
-        mView.showProgress();
-
-        Subscription subscription = mRepository.fetchCountries()
-                .subscribeOn(mSchedulerProvider.io())
-                .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Subscriber<List<CountryDTO>>() {
-                    @Override
-                    public void onCompleted() {
-                        if (mView.isActive())
-                            mView.hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mView.isActive()) {
-                            mView.hideProgress();
-                            mView.noInternet();
-                        }
-                    }
-
-                    @Override
-                    public void onNext(List<CountryDTO> countryDTOs) {
-                        if (mView.isActive()) {
-                            mView.refreshMessages(countryDTOs);
-                            mView.hideProgress();
-                        }
-                    }
-                });
-        mSubscriptions.add(subscription);
+    private void loadCountries(List<CountryDTO> countryDTOS) {
+        mView.updateCountries(countryDTOS);
+        mView.showProgress(false);
     }
 
-    @Override
-    public void subscribe() {
-
-    }
-
-    @Override
     public void unsubscribe() {
         mSubscriptions.clear();
     }

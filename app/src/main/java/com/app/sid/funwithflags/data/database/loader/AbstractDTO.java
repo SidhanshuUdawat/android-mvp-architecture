@@ -10,10 +10,7 @@ import rx.Observable;
 
 public abstract class AbstractDTO<T> {
 
-    private Context mContext;
-
-    public AbstractDTO(Context context) {
-        this.mContext = context;
+    public AbstractDTO() {
     }
 
     public abstract long insert(T entity, String tableName);
@@ -24,9 +21,9 @@ public abstract class AbstractDTO<T> {
 
     public abstract long update(T entity);
 
-    public abstract Observable<List<T>> readObserver();
+    public abstract Observable<List<T>> getAllCountries();
 
-    public abstract Observable<List<T>> readObserver(T entity);
+    public abstract Observable<List<T>> getAllCountries(T entity);
 
     public abstract List read();
 

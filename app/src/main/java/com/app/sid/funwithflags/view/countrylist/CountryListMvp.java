@@ -1,31 +1,34 @@
 package com.app.sid.funwithflags.view.countrylist;
 
 import com.app.sid.funwithflags.datasets.remote.CountryDTO;
-import com.app.sid.funwithflags.view.base.BasePresenter;
-import com.app.sid.funwithflags.view.base.BaseView;
 
 import java.util.List;
 
-public interface CountryListContract {
+import rx.Observable;
 
-    interface View extends BaseView<Presenter> {
-        void showProgress();
+public interface CountryListMvp {
 
-        void hideProgress();
+    interface View {
+        void showProgress(boolean isVisible);
 
-        void noInternet();
+        void showInternetError(boolean isVisible);
 
-        void refreshMessages(List<CountryDTO> countryDTOs);
+        boolean isInternetAvailable();
 
-        boolean isActive();
+        void updateCountries(List<CountryDTO> countryDTOs);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Interactor {
+        Observable<List<CountryDTO>> getCountryList();
+    }
 
-        void isDataAvailable();
+    interface RemoteDataSource {
+        Observable<List<CountryDTO>> getCountryList();
+    }
 
-        void downloadData();
-
-        void fetchCountries();
+    interface LocalDataSource {
+        boolean isLocalDataPresent();
+        Observable<List<CountryDTO>> getCountryList();
+        void saveCountry(CountryDTO country);
     }
 }

@@ -7,3 +7,15 @@
 /build
 /captures
 .externalNativeBuild
+/.idea
+/build
+*/build
+*/gen
+*/bin
+/libraries/**/build
+/libraries/**/.classpath
+/libraries/**/.project
+/libraries/**/.settings
+/libraries/**/gen
+/libraries/**/bin
+gradle/wrapper/gradle-wrapper.properties

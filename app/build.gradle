@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    flavorDimensions "default"
     defaultConfig {
         applicationId "com.app.sid.funwithflags"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -46,7 +47,7 @@ android {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         }
     }
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {

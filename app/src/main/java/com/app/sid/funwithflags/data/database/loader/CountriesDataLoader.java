@@ -21,8 +21,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     private String[] mColumns;
     private Func1<Cursor, CountryDTO> mapperFunction;
 
-    public CountriesDataLoader(Context context) {
-        super(context);
+    public CountriesDataLoader() {
         this.mInstance = DatabaseManager.getInstance();
         this.mColumns = this.getColumns();
         mapperFunction = new Func1<Cursor, CountryDTO>() {
@@ -110,13 +109,13 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public Observable<List<CountryDTO>> readObserver() {
+    public Observable<List<CountryDTO>> getAllCountries() {
         String sql = "Select * from " + CountriesTableSchema.TABLE;
         return this.mInstance.read(CountriesTableSchema.TABLE, sql, mapperFunction);
     }
 
     @Override
-    public Observable<List<CountryDTO>> readObserver(CountryDTO obj) {
+    public Observable<List<CountryDTO>> getAllCountries(CountryDTO obj) {
         String sql = String.format("SELECT * FROM %s WHERE %s LIKE ? AND %s LIKE ?",
                 CountriesTableSchema.TABLE, CountriesTableSchema.C_NAME, CountriesTableSchema.C_ALPHA_2_CODE);
         return mInstance.read(CountriesTableSchema.TABLE, sql, mapperFunction, obj.getName(), obj.getAlpha2Code());

@@ -36,10 +36,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private List<CountryDTO> mValues;
     private List<CountryDTO> mFilteredList;
-
     private CountryInteraction mListener;
-    private final static int RADI = 15;
-
 
     public CountryListAdapter(List<CountryDTO> countries,
                               CountryInteraction listener) {
@@ -156,27 +153,6 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         });
     }
-
-    public static void setAllCornersBG(View v, int backgroundColor, int borderColor) {
-        GradientDrawable shape = new GradientDrawable();
-        shape.setShape(GradientDrawable.RECTANGLE);
-        shape.setCornerRadii(new float[]{RADI, RADI, RADI, RADI, RADI, RADI, RADI, RADI});
-        shape.setColor(backgroundColor);
-        shape.setStroke(3, borderColor);
-        v.setBackgroundDrawable(shape);
-    }
-
-    public List<CountryDTO> getItems() {
-        return mValues;
-    }
-
-    public void addItem(CountryDTO dataObj) {
-        if (mValues == null) {
-            mValues = new ArrayList<>();
-        }
-        mValues.add(dataObj);
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

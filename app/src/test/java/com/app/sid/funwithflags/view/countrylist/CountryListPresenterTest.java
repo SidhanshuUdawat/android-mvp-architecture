@@ -23,7 +23,7 @@ public class CountryListPresenterTest {
     private DashboardRepository mTasksRepository;
 
     @Mock
-    private CountryListContract.View mView;
+    private CountryListMvp.View mView;
 
     private BaseSchedulerProvider mSchedulerProvider;
 
