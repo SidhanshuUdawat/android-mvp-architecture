@@ -28,7 +28,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     String URL_FLAG_L = "http://www.geonames.org/flags/l/%s.gif";
-    
     public interface CountryInteraction {
         void OnListInteractionListener(View v, CountryDTO object, int pos);
     }
