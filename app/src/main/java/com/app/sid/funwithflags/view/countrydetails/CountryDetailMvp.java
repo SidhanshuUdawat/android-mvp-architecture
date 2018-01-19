@@ -6,9 +6,11 @@ import com.app.sid.funwithflags.datasets.remote.CountryDTO;
 import com.app.sid.funwithflags.view.base.BasePresenter;
 import com.app.sid.funwithflags.view.base.BaseView;
 
+import rx.Observable;
+
 public interface CountryDetailContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View {
         void showProgress();
 
         void hideProgress();
@@ -20,10 +22,11 @@ public interface CountryDetailContract {
         void setupView(CountryDTO countryDTO);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Interactor {
+        Observable<CountryDTO> getCountry(CountryDTO country);
+    }
 
-        void fetchCountry(String cname, String alphaCode);
-
-        void loadImage(ImageView mView, String alphaCode);
+    interface LocalDataSource {
+        Observable<CountryDTO> getCountry(CountryDTO country);
     }
 }
