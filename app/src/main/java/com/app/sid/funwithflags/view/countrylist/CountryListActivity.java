@@ -36,7 +36,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class CountryListActivity extends AppCompatActivity implements CountryListMvp.View,
-        CountryListAdapter.CountryInteraction {
+        CountryListAdapter.OnCountryListAdapterInteraction {
 
     @BindView(R.id.list_countries)
     public RecyclerView mRecyclerView;
@@ -130,7 +130,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void OnListInteractionListener(View view, CountryDTO country, int pos) {
+    public void onCountryClicked(View view, CountryDTO country, int pos) {
         Intent intent = new Intent(this, CountryDetailActivity.class);
         intent.putExtra(CountryDetailActivity.SELECTED_COUNTRY, new SelectedCountry(country.getName(), country.getAlpha2Code()));
         

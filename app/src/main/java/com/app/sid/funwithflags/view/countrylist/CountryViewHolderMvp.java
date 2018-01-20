@@ -1,8 +1,25 @@
 package com.app.sid.funwithflags.view.countrylist;
 
+import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+
 /**
  * Created by Sidhanshu Udawat on 20-Jan-18.
  */
 
-public class CountryViewHolderMvp {
+public interface CountryViewHolderMvp {
+
+    interface View {
+
+        void setCountryCapital(String value);
+
+        void setCountryName(String value);
+
+        void showProgress(boolean isShown);
+
+        void setCachedFlagImage(String url);
+
+        void setFlagImage(String url);
+
+        void onCountryClicked(CountryDTO object, int pos);
+    }
 }

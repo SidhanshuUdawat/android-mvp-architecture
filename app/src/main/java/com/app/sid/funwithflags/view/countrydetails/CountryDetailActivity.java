@@ -29,9 +29,6 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     public static final String SELECTED_COUNTRY = "selectedCountry";
 
-    @BindView(R.id.toolbar)
-    public Toolbar mToolbar;
-
     @BindView(R.id.img_flag)
     public ImageView mFlagImage;
 
@@ -84,9 +81,10 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
     }
 
     private void initToolbar(String countryName) {
-        mToolbar.setTitle(countryName);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(countryName);
     }
 
     @Override
