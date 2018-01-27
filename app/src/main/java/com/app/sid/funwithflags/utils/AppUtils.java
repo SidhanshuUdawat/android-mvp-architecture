@@ -11,7 +11,7 @@ import com.app.sid.funwithflags.R;
  * Created by sidhanshu.udawat
  */
 
-public class Utils {
+public class AppUtils {
 
     public interface AlertOK {
         void alertOkClick();

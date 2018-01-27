@@ -1,4 +1,4 @@
-package com.app.sid.funwithflags.view;
+package com.app.sid.funwithflags;
 
 import android.app.Application;
 import android.content.Context;
