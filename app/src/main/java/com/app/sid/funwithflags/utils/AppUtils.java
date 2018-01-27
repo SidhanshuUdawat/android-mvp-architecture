@@ -1,5 +1,7 @@
 package com.app.sid.funwithflags.utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -41,5 +43,13 @@ public class AppUtils {
         textView.setTextColor(Color.WHITE);
 
         snackbar.show();
+    }
+
+    public static void restartApp(Context context) {
+        Intent i = context.getPackageManager()
+                .getLaunchIntentForPackage(context.getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(i);
+        System.exit(0);
     }
 }

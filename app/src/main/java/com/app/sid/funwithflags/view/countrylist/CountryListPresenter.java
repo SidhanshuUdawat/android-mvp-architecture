@@ -2,7 +2,7 @@ package com.app.sid.funwithflags.view.countrylist;
 
 import android.support.annotation.NonNull;
 
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 
 import java.util.List;
 
@@ -14,6 +14,9 @@ import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * Created by Sidhanshu Udawat on 19-Jan-18.
+ */
 
 public class CountryListPresenter {
 
@@ -22,11 +25,11 @@ public class CountryListPresenter {
     @NonNull
     private CompositeSubscription mSubscriptions;
     @NonNull
-    private final CountryListInteractor mInteractor;
+    private final CountryListMvp.Interactor mInteractor;
 
-    public CountryListPresenter(@NonNull CountryListMvp.View view) {
+    public CountryListPresenter(@NonNull CountryListMvp.View view, CountryListMvp.Interactor interactor) {
         mView = checkNotNull(view, "view cannot be null!");
-        mInteractor = new CountryListInteractor();
+        mInteractor = interactor;
         mSubscriptions = new CompositeSubscription();
     }
 
@@ -54,7 +57,7 @@ public class CountryListPresenter {
             Subscription subscription = mInteractor.getCountryList()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<List<CountryDTO>>() {
+                    .subscribe(new Subscriber<List<Countries>>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -65,7 +68,7 @@ public class CountryListPresenter {
                         }
 
                         @Override
-                        public void onNext(List<CountryDTO> countryDTOS) {
+                        public void onNext(List<Countries> countryDTOS) {
                             loadCountries(countryDTOS);
                         }
                     });
@@ -79,9 +82,17 @@ public class CountryListPresenter {
         mView.showInternetError(true);
     }
 
-    private void loadCountries(List<CountryDTO> countryDTOS) {
-        mView.updateCountries(countryDTOS);
+    private void loadCountries(List<Countries> countries) {
+        mView.updateCountries(countries);
         mView.showProgress(false);
+    }
+
+    public void onQueryTextSubmit(String query) {
+        mView.onQueryTextSubmit(query);
+    }
+
+    public void onQueryTextChange(String query) {
+        mView.onQueryTextChange(query);
     }
 
     public void unsubscribe() {

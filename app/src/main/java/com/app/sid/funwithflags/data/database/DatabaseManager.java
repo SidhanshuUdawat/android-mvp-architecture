@@ -113,10 +113,15 @@ public class DatabaseManager<T> {
     }
 
     public Cursor read(final String tableName, final String[] columns) {
-        Cursor cursor = null;
-        SQLiteDatabase db = this.mDbHelper.getReadableDatabase();
-        cursor = db.query(tableName, columns, null, null, null, null, null);
-        return cursor;
+        if (mDbHelper != null) {
+            Cursor cursor = null;
+            SQLiteDatabase db = this.mDbHelper.getReadableDatabase();
+            cursor = db.query(tableName, columns, null, null, null, null, null);
+            return cursor;
+        } else {
+            return null;
+        }
+
     }
 
     public Cursor read(final String tableName, final String[] columns,

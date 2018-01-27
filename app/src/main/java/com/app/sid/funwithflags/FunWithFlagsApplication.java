@@ -1,27 +1,26 @@
 package com.app.sid.funwithflags;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.app.sid.funwithflags.data.database.DatabaseManager;
+import com.app.sid.funwithflags.di.components.DaggerApplicationComponent;
+import com.app.sid.funwithflags.di.modules.ApplicationModule;
+import com.app.sid.funwithflags.di.modules.RealmManagerModule;
+import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.pref.PrefManager;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
-public class FunWithFlagsApp extends Application {
+public class FunWithFlagsApplication extends Application {
 
-    private static FunWithFlagsApp mInstance;
+    protected ApplicationBaseComponent appProvider;
 
-    public static synchronized FunWithFlagsApp getApp() {
-        return mInstance;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
-
+        createAppComponent();
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
         Picasso built = builder.build();
@@ -32,9 +31,25 @@ public class FunWithFlagsApp extends Application {
         PrefManager.getInstance().initPref(this);
         DatabaseManager.getInstance().initDatabase(this);
         Connectivity.getInstance().initConnectivity(this);
+        setupRealm();
     }
 
-    public Context appContext() {
-        return this.getApplicationContext();
+    public void createAppComponent() {
+        appProvider = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .realmManagerModule(new RealmManagerModule())
+                .build();
+    }
+
+    public ApplicationBaseComponent getApplicationComponent() {
+        return appProvider;
+    }
+
+    public void clearAppComponent() {
+        appProvider = null;
+    }
+
+    public void setupRealm() {
+        getApplicationComponent().getRealmManager().init();
     }
 }

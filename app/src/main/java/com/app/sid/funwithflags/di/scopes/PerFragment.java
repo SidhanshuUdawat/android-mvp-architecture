@@ -1,4 +1,4 @@
-package com.app.sid.funwithflags.di;
+package com.app.sid.funwithflags.di.scopes;
 
 /**
  * Created by Sidhanshu Udawat on 27-Jan-18.

@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.utils.ProgressHelper;
-import com.app.sid.funwithflags.utils.Utils;
+import com.app.sid.funwithflags.utils.AppUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -159,7 +159,7 @@ public class WikiFragment extends Fragment implements WikiContract.View {
     }
 
     private void showMessage(String message) {
-        Utils.showSnackBar(getView(),
+        AppUtils.showSnackBar(getView(),
                 message, Snackbar.LENGTH_LONG, null);
     }
 }

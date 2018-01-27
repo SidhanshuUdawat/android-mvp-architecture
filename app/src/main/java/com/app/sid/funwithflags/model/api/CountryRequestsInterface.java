@@ -1,11 +1,10 @@
-package com.app.sid.funwithflags.model;
+package com.app.sid.funwithflags.model.api;
 
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 
 import java.util.List;
 
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -15,5 +14,5 @@ import rx.Observable;
 public interface CountryRequestsInterface {
 
     @GET("all")
-    Observable<List<CountryDTO>> getCountries();
+    Observable<List<Countries>> getCountries();
 }

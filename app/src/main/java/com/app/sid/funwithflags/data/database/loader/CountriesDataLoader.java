@@ -1,13 +1,12 @@
 package com.app.sid.funwithflags.data.database.loader;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.app.sid.funwithflags.data.database.DatabaseManager;
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import java.util.ArrayList;
@@ -16,25 +15,25 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Func1;
 
-public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
+public class CountriesDataLoader extends AbstractDTO<Countries> {
 
     private DatabaseManager mInstance;
     private String[] mColumns;
-    private Func1<Cursor, CountryDTO> mapperFunction;
+    private Func1<Cursor, Countries> mapperFunction;
 
     public CountriesDataLoader() {
         this.mInstance = DatabaseManager.getInstance();
         this.mColumns = this.getColumns();
-        mapperFunction = new Func1<Cursor, CountryDTO>() {
+        mapperFunction = new Func1<Cursor, Countries>() {
             @Override
-            public CountryDTO call(Cursor cursor) {
+            public Countries call(Cursor cursor) {
                 return getSumOfPart(cursor);
             }
         };
     }
 
     @NonNull
-    private CountryDTO getSumOfPart(@NonNull Cursor cursor) {
+    private Countries getSumOfPart(@NonNull Cursor cursor) {
         int id = cursor.getInt(cursor.getColumnIndexOrThrow(CountriesTableSchema.ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(CountriesTableSchema.C_NAME));
         String alpha_2_code = cursor.getString(cursor.getColumnIndexOrThrow(CountriesTableSchema.C_ALPHA_2_CODE));
@@ -54,7 +53,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
         String domain = cursor.getString(cursor.getColumnIndexOrThrow(CountriesTableSchema.C_INTERNET_DOMAIN));
         String phonecode = cursor.getString(cursor.getColumnIndexOrThrow(CountriesTableSchema.C_PHONE_CODE));
 
-        CountryDTO country = new CountryDTO();
+        Countries country = new Countries();
         country.setId(id);
         country.setName(name);
         country.setAlpha2Code(alpha_2_code);
@@ -76,13 +75,13 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public long insert(CountryDTO entity, final String tableName) {
+    public long insert(Countries entity, final String tableName) {
         return this.mInstance.add(this.getContentValues(entity),
                 CountriesTableSchema.TABLE);
     }
 
     @Override
-    public long delete(CountryDTO entity) {
+    public long delete(Countries entity) {
         String aplhaCode = entity.getAlpha2Code();
         String selection = " " + CountriesTableSchema.C_ALPHA_2_CODE + " =?  ";
         return this.mInstance.delete(CountriesTableSchema.TABLE, selection,
@@ -95,7 +94,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public long update(CountryDTO entity) {
+    public long update(Countries entity) {
         String selection = " " + CountriesTableSchema.C_ALPHA_2_CODE + " =? "
                 + "AND"
                 + " " + CountriesTableSchema.C_NAME + " =? ";
@@ -110,28 +109,28 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public Observable<List<CountryDTO>> getAllCountries() {
+    public Observable<List<Countries>> getAllCountries() {
         String sql = "Select * from " + CountriesTableSchema.TABLE;
         return this.mInstance.read(CountriesTableSchema.TABLE, sql, mapperFunction);
     }
 
     @Override
-    public Observable<List<CountryDTO>> getAllCountries(CountryDTO obj) {
+    public Observable<List<Countries>> getAllCountries(Countries obj) {
         String sql = String.format("SELECT * FROM %s WHERE %s LIKE ? AND %s LIKE ?",
                 CountriesTableSchema.TABLE, CountriesTableSchema.C_NAME, CountriesTableSchema.C_ALPHA_2_CODE);
         return mInstance.read(CountriesTableSchema.TABLE, sql, mapperFunction, obj.getName(), obj.getAlpha2Code());
     }
 
-    public Observable<CountryDTO> getCountry(SelectedCountry obj) {
+    public Observable<Countries> getCountry(SelectedCountry obj) {
         String sql = String.format("SELECT * FROM %s WHERE %s LIKE ? AND %s LIKE ?",
                 CountriesTableSchema.TABLE, CountriesTableSchema.C_NAME, CountriesTableSchema.C_ALPHA_2_CODE);
         return mInstance.readSingle(CountriesTableSchema.TABLE, sql, mapperFunction, obj.getName(), obj.getAlpha2Code());
     }
 
     @Override
-    public ArrayList<CountryDTO> read() {
+    public ArrayList<Countries> read() {
         Cursor resultSet = null;
-        ArrayList<CountryDTO> list = null;
+        ArrayList<Countries> list = null;
         resultSet = this.mInstance.read(CountriesTableSchema.TABLE,
                 this.mColumns);
         if (null != resultSet) {
@@ -141,11 +140,11 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public ArrayList<CountryDTO> read(String selection,
-                                      String[] selectionArgs, String groupBy, String having,
-                                      String orderBy) {
+    public ArrayList<Countries> read(String selection,
+                                     String[] selectionArgs, String groupBy, String having,
+                                     String orderBy) {
         Cursor resultSet = null;
-        ArrayList<CountryDTO> list = null;
+        ArrayList<Countries> list = null;
         resultSet = this.mInstance.read(CountriesTableSchema.TABLE,
                 this.mColumns, selection, selectionArgs, groupBy, having,
                 orderBy);
@@ -156,7 +155,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public ContentValues getContentValues(CountryDTO entity) {
+    public ContentValues getContentValues(Countries entity) {
         if (null == entity) {
             return null;
         }
@@ -181,7 +180,7 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
     }
 
     @Override
-    public ArrayList<CountryDTO> getListFromCursor(Cursor cursor) {
+    public ArrayList<Countries> getListFromCursor(Cursor cursor) {
         if (null == cursor) {
             return null;
         }
@@ -204,10 +203,10 @@ public class CountriesDataLoader extends AbstractDTO<CountryDTO> {
         int netDomain = cursor.getColumnIndexOrThrow(CountriesTableSchema.C_INTERNET_DOMAIN);
         int phCode = cursor.getColumnIndexOrThrow(CountriesTableSchema.C_PHONE_CODE);
 
-        ArrayList<CountryDTO> list = new ArrayList<>();
+        ArrayList<Countries> list = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                CountryDTO country = new CountryDTO();
+                Countries country = new Countries();
                 country.setId(cursor.getInt(id));
                 country.setName(cursor.getString(name));
                 country.setAlpha2Code(cursor.getString(alpha_2_code));

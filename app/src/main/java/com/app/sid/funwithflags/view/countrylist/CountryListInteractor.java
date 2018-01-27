@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 
 import java.util.List;
 
@@ -17,25 +17,25 @@ public class CountryListInteractor implements CountryListMvp.Interactor {
     private final CountryListMvp.RemoteDataSource mRemoteDataSource;
     private final CountryListMvp.LocalDataSource mLocalDataSource;
 
-    public CountryListInteractor() {
-        mRemoteDataSource = new CountryRemoteDataSource();
-        mLocalDataSource = new CountryLocalDataSource();
+    public CountryListInteractor(CountryListMvp.LocalDataSource localDataSource, CountryListMvp.RemoteDataSource remoteDataSource) {
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
     }
 
     @Override
-    public Observable<List<CountryDTO>> getCountryList() {
+    public Observable<List<Countries>> getCountryList() {
         if (mLocalDataSource.isLocalDataPresent()) {
             return mLocalDataSource.getCountryList();
         } else {
             return mRemoteDataSource.getCountryList()
-                    .flatMap(new Func1<List<CountryDTO>, Observable<CountryDTO>>() {
+                    .flatMap(new Func1<List<Countries>, Observable<Countries>>() {
                         @Override
-                        public Observable<CountryDTO> call(List<CountryDTO> countryDTOs) {
-                            return Observable.from(countryDTOs)
-                                    .doOnNext(new Action1<CountryDTO>() {
+                        public Observable<Countries> call(List<Countries> countries) {
+                            return Observable.from(countries)
+                                    .doOnNext(new Action1<Countries>() {
                                         @Override
-                                        public void call(CountryDTO countryDTO) {
-                                            mLocalDataSource.saveCountry(countryDTO);
+                                        public void call(Countries countries) {
+                                            mLocalDataSource.saveCountry(countries);
                                         }
                                     });
                         }

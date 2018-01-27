@@ -19,9 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
+import com.app.sid.funwithflags.di.components.DaggerCountriesComponent;
+import com.app.sid.funwithflags.di.modules.CountriesModule;
+import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.DividerItemDecoration;
 import com.app.sid.funwithflags.utils.EspressoIdlingResource;
@@ -29,6 +33,8 @@ import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,9 +53,12 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     @BindView(R.id.loading_layout)
     public LinearLayout mProgress;
 
-    private List<CountryDTO> mCountriesList;
+    @Inject
+    public CountryListPresenter mPresenter;
+    private MenuItem myActionMenuItem;
+    private SearchView searchView;
+    private List<Countries> mCountriesList;
     private CountryListAdapter mListAdapter;
-    private CountryListPresenter mPresenter;
     private Unbinder unbinder;
 
     @Override
@@ -63,7 +72,12 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     private void initPresenter() {
-        mPresenter = new CountryListPresenter(this);
+        ApplicationBaseComponent applicationBaseComponent = ((FunWithFlagsApplication) getApplication()).getApplicationComponent();
+        DaggerCountriesComponent.builder()
+                .applicationBaseComponent(applicationBaseComponent)
+                .countriesModule(new CountriesModule(this))
+                .build()
+                .inject(this);
         mPresenter.init();
     }
 
@@ -123,17 +137,34 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void updateCountries(List<CountryDTO> countryList) {
+    public void updateCountries(List<Countries> countryList) {
         int oldSize = mCountriesList.size();
         mCountriesList.addAll(countryList);
         mListAdapter.notifyItemRangeInserted(oldSize, countryList.size());
     }
 
     @Override
-    public void onCountryClicked(View view, CountryDTO country, int pos) {
+    public void onQueryTextSubmit(String query) {
+        if (searchView != null && !searchView.isIconified()) {
+            searchView.setIconified(true);
+        }
+        if (myActionMenuItem != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            myActionMenuItem.collapseActionView();
+        }
+    }
+
+    @Override
+    public void onQueryTextChange(String query) {
+        if (mListAdapter != null) {
+            mListAdapter.getFilter().filter(query);
+        }
+    }
+
+    @Override
+    public void onCountryClicked(View view, Countries country, int pos) {
         Intent intent = new Intent(this, CountryDetailActivity.class);
         intent.putExtra(CountryDetailActivity.SELECTED_COUNTRY, new SelectedCountry(country.getName(), country.getAlpha2Code()));
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             ImageView img_flag = (ImageView) view.findViewById(R.id.img_flag);
             TextView country_name = (TextView) view.findViewById(R.id.txt_country_name);
@@ -150,25 +181,18 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_countries_list, menu);
-        final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        myActionMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                    myActionMenuItem.collapseActionView();
-                }
+                mPresenter.onQueryTextSubmit(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mListAdapter != null) {
-                    mListAdapter.getFilter().filter(newText);
-                }
+                mPresenter.onQueryTextChange(newText);
                 return false;
             }
         });

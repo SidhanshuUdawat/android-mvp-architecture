@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-import com.app.sid.funwithflags.view.FunWithFlagsApp;
+import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.view.wikiview.WikiActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -120,7 +120,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     @Override
     public void loadCachedFlag(String url) {
-        Picasso.with(FunWithFlagsApp.getApp().appContext())
+        Picasso.with(this)
                 .load(url)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(mFlagImage, new Callback() {
@@ -138,7 +138,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     @Override
     public void loadFlag(String url) {
-        Picasso.with(FunWithFlagsApp.getApp().appContext())
+        Picasso.with(this)
                 .load(url)
                 .error(R.drawable.flag_ind)
                 .into(mFlagImage, new Callback() {

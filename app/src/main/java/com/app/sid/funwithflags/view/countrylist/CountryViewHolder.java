@@ -7,8 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
-import com.app.sid.funwithflags.view.FunWithFlagsApp;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 public class CountryViewHolder extends RecyclerView.ViewHolder implements CountryViewHolderMvp.View {
 
     interface OnCountryViewHolderInteraction {
-        void onCountryClicked(View v, CountryDTO countryModel, int pos);
+        void onCountryClicked(View v, Countries countryModel, int pos);
     }
 
     private View mItemView;
@@ -51,7 +50,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
         mListener = listener;
     }
 
-    public void bind(CountryDTO country) {
+    public void bind(Countries country) {
         mPresenter.bind(country);
         mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +77,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
 
     @Override
     public void setCachedFlagImage(String url) {
-        Picasso.with(FunWithFlagsApp.getApp().appContext())
+        Picasso.with(itemView.getContext())
                 .load(url)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(mImgFlag, new Callback() {
@@ -96,7 +95,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
 
     @Override
     public void setFlagImage(String url) {
-        Picasso.with(FunWithFlagsApp.getApp().appContext())
+        Picasso.with(itemView.getContext())
                 .load(url)
                 .error(R.drawable.flag_ind)
                 .into(mImgFlag, new Callback() {
@@ -113,7 +112,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
     }
 
     @Override
-    public void onCountryClicked(CountryDTO countryModel, int pos) {
+    public void onCountryClicked(Countries countryModel, int pos) {
         mListener.onCountryClicked(itemView, countryModel, pos);
     }
 }

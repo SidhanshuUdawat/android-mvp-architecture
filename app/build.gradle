@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.app.sid.funwithflags"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        testHandleProfiling true
+        testFunctionalTest true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,11 +25,8 @@ android {
         }
     }
 
-    // Always show the result of every unit test, even if it passes.
-    testOptions.unitTests.all {
-        testLogging {
-            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
-        }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
     buildToolsVersion '26.0.2'
 }
@@ -42,57 +42,68 @@ dependencies {
 
     compile "com.google.guava:guava:$rootProject.guavaVersion"
 
+    //RxJava
     compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
 
+    //Retrofit
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
     compile("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    compile "com.squareup.okhttp:okhttp:$rootProject.okhttpVersion"
+
+    //Dependency injection
     compile "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"
     compile "org.apache.httpcomponents:httpcore:$rootProject.apacheVersion"
 
-    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
-    compile "com.squareup.okhttp:okhttp:$rootProject.okhttpVersion"
+    //Testing
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.easytesting:fest:1.0.16'
+    testCompile 'org.mockito:mockito-core:2.2.0'
+    testCompile "com.android.support:support-v4:$supportLibraryVersion"
+    testCompile 'org.json:json:20160810'
+    testCompile('com.squareup:fest-android:1.0.8') {
+        exclude module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 
-    // Dependencies for local unit tests
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
-    testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
-    testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+    //UI testing
+    androidTestCompile('com.github.andrzejchm.RESTMock:android:0.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.squareup.okio', module: 'okio'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile('com.android.support.test:runner:1.0.1') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
-    // Android Testing Support Library's runner and rules
-    androidTestCompile "com.android.support.test:runner:$rootProject.ext.runnerVersion"
-    androidTestCompile "com.android.support.test:rules:$rootProject.ext.runnerVersion"
+    androidTestCompile("com.android.support.test.espresso:espresso-intents:3.0.1") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
-    // Dependencies for Android unit tests
-    androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
-    androidTestCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
-
-    // Espresso UI Testing
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion") {
-        exclude group: 'com.android.support', module: 'appcompat'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
 
-    // Resolve conflicts between main and test APK:
-    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
-
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile('com.squareup:fest-android:1.0.8') {
+        exclude module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 }

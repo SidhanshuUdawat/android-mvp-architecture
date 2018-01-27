@@ -1,12 +1,13 @@
 
 package com.app.sid.funwithflags.datasets.remote;
 
+import com.app.sid.funwithflags.model.funwithflags.CountriesBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CountryDTO {
+public class Countries {
 
     @SerializedName("name")
     @Expose
@@ -85,11 +86,61 @@ public class CountryDTO {
     private String phonecode;
     private String lat_long;
 
-    public CountryDTO() {
+    public Countries() {
 
     }
 
-    public CountryDTO(String name, String alpha2Code) {
+    public Countries(CountriesBuilder countriesBuilder) {
+        name = countriesBuilder.getName();
+        topLevelDomain = countriesBuilder.getTopLevelDomain();
+        alpha2Code = countriesBuilder.getAlpha2Code();
+        alpha3Code = countriesBuilder.getAlpha3Code();
+        callingCodes = countriesBuilder.getCallingCodes();
+        capital = countriesBuilder.getCapital();
+        altSpellings = countriesBuilder.getAltSpellings();
+        region = countriesBuilder.getRegion();
+        subregion = countriesBuilder.getSubregion();
+        population = countriesBuilder.getPopulation();
+        latlng = countriesBuilder.getLatlng();
+        demonym = countriesBuilder.getDemonym();
+        area = countriesBuilder.getArea();
+        gini = countriesBuilder.getGini();
+        timezones = countriesBuilder.getTimezones();
+        borders = countriesBuilder.getBorders();
+        nativeName = countriesBuilder.getNativeName();
+        numericCode = countriesBuilder.getNumericCode();
+        currencies = countriesBuilder.getCurrencies();
+        languages = countriesBuilder.getLanguages();
+        translations = countriesBuilder.getTranslations();
+        regionalBlocs = countriesBuilder.getRegionalBlocs();
+    }
+
+    public Countries(Countries countries) {
+        name = countries.getName();
+        topLevelDomain = countries.getTopLevelDomain();
+        alpha2Code = countries.getAlpha2Code();
+        alpha3Code = countries.getAlpha3Code();
+        callingCodes = countries.getCallingCodes();
+        capital = countries.getCapital();
+        altSpellings = countries.getAltSpellings();
+        region = countries.getRegion();
+        subregion = countries.getSubregion();
+        population = countries.getPopulation();
+        latlng = countries.getLatlng();
+        demonym = countries.getDemonym();
+        area = countries.getArea();
+        gini = countries.getGini();
+        timezones = countries.getTimezones();
+        borders = countries.getBorders();
+        nativeName = countries.getNativeName();
+        numericCode = countries.getNumericCode();
+        currencies = countries.getCurrencies();
+        languages = countries.getLanguages();
+        translations = countries.getTranslations();
+        regionalBlocs = countries.getRegionalBlocs();
+    }
+
+    public Countries(String name, String alpha2Code) {
         this.name = name;
         this.alpha2Code = alpha2Code;
     }

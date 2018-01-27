@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import com.app.sid.funwithflags.constants.AppConst;
 import com.app.sid.funwithflags.data.database.loader.CountriesDataLoader;
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.realm.RealmManager;
 
 import java.util.List;
 
@@ -19,23 +20,25 @@ public class CountryLocalDataSource implements CountryListMvp.LocalDataSource {
 
     @NonNull
     private final CountriesDataLoader countriesDataLoader;
+    private RealmManager mRealmManager;
 
-    public CountryLocalDataSource() {
+    public CountryLocalDataSource(RealmManager realmManager) {
         countriesDataLoader = new CountriesDataLoader();
+        mRealmManager = realmManager;
     }
 
     @Override
     public boolean isLocalDataPresent() {
-        return countriesDataLoader.read().size() > 0;
+        return countriesDataLoader.read() != null && (countriesDataLoader.read().size() > 0);
     }
 
     @Override
-    public Observable<List<CountryDTO>> getCountryList() {
+    public Observable<List<Countries>> getCountryList() {
         return countriesDataLoader.getAllCountries();
     }
 
     @Override
-    public void saveCountry(CountryDTO country) {
+    public void saveCountry(Countries country) {
         StringBuilder languages = new StringBuilder();
         StringBuilder currencies = new StringBuilder();
         StringBuilder domain = new StringBuilder();

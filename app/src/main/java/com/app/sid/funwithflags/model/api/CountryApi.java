@@ -1,6 +1,6 @@
-package com.app.sid.funwithflags.model;
+package com.app.sid.funwithflags.model.api;
 
-import com.app.sid.funwithflags.datasets.remote.CountryDTO;
+import com.app.sid.funwithflags.datasets.remote.Countries;
 import com.app.sid.funwithflags.network.WebApiBase;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class CountryApi extends WebApiBase {
         getRequestsService();
     }
 
-    public Observable<List<CountryDTO>> getCountries() {
+    public Observable<List<Countries>> getCountries() {
         return mRequestsService.getCountries();
     }
 
