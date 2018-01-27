@@ -1,4 +1,5 @@
-# FunWithFlags
+# android-mvp-architecture
+<b>FunWithFlags</b>
 
 Fun With Flags. Learn how flags from different countries look like and some basic information about every country.
 
