@@ -15,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
 public class RealmCurrency extends RealmObject {
 
     @PrimaryKey
-    private String id = UUID.randomUUID().toString();
+    private String id;
     public String code;
     public String name;
     public String symbol;
@@ -25,6 +25,7 @@ public class RealmCurrency extends RealmObject {
     }
 
     public RealmCurrency(Currency currency) {
+        id = UUID.randomUUID().toString();
         code = currency.getCode();
         name = currency.getName();
         symbol = currency.getSymbol();

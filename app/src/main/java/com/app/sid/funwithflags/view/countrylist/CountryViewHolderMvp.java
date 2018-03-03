@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 /**
  * Created by Sidhanshu Udawat on 20-Jan-18.
@@ -20,6 +20,6 @@ public interface CountryViewHolderMvp {
 
         void setFlagImage(String url);
 
-        void onCountryClicked(Countries object, int pos);
+        void onCountryClicked(Country object, int pos);
     }
 }

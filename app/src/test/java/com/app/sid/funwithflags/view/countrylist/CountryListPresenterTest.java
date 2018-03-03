@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class CountryListPresenterTest {
     @Test
     public void given_init_when_internet_available_then_show_countries() {
         when(mView.isInternetAvailable()).thenReturn(true);
-        when(mInteractor.getCountryList()).thenReturn(Observable.<List<Countries>>empty());
+        when(mInteractor.getCountryList()).thenReturn(Observable.<List<Country>>empty());
         mPresenter.init();
         verify(mView).isInternetAvailable();
         verify(mView).showProgress(true);

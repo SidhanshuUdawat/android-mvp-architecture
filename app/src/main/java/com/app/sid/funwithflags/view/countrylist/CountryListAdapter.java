@@ -8,7 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,14 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public interface OnCountryListAdapterInteraction {
-        void onCountryClicked(View v, Countries object, int pos);
+        void onCountryClicked(View v, Country object, int pos);
     }
 
-    private List<Countries> mValues;
-    private List<Countries> mFilteredList;
+    private List<Country> mValues;
+    private List<Country> mFilteredList;
     private OnCountryListAdapterInteraction mListener;
 
-    public CountryListAdapter(List<Countries> countries,
+    public CountryListAdapter(List<Country> countries,
                               OnCountryListAdapterInteraction listener) {
         mValues = checkNotNull(countries);
         mFilteredList = checkNotNull(countries);
@@ -39,7 +39,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         View view = inflater.inflate(R.layout.country_list_item, parent, false);
         return new CountryViewHolder(view, new CountryViewHolder.OnCountryViewHolderInteraction() {
             @Override
-            public void onCountryClicked(View v, Countries countryModel, int pos) {
+            public void onCountryClicked(View v, Country countryModel, int pos) {
                 mListener.onCountryClicked(v, countryModel, pos);
             }
         });
@@ -67,8 +67,8 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 if (charString.isEmpty()) {
                     mFilteredList = mValues;
                 } else {
-                    List<Countries> filteredList = new ArrayList<>();
-                    for (Countries country : mValues) {
+                    List<Country> filteredList = new ArrayList<>();
+                    for (Country country : mValues) {
                         if (country.getName().toLowerCase().contains(charString.toLowerCase())
                                 || country.getCapital().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(country);
@@ -83,7 +83,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (List<Countries>) filterResults.values;
+                mFilteredList = (List<Country>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

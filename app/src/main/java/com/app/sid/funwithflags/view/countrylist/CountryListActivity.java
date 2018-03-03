@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 import com.app.sid.funwithflags.di.components.DaggerCountriesComponent;
 import com.app.sid.funwithflags.di.modules.CountriesModule;
@@ -57,7 +57,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     public CountryListPresenter mPresenter;
     private MenuItem myActionMenuItem;
     private SearchView searchView;
-    private List<Countries> mCountriesList;
+    private List<Country> mCountryList;
     private CountryListAdapter mListAdapter;
     private Unbinder unbinder;
 
@@ -82,8 +82,8 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     private void initList() {
-        mCountriesList = new ArrayList<>();
-        mListAdapter = new CountryListAdapter(mCountriesList, this);
+        mCountryList = new ArrayList<>();
+        mListAdapter = new CountryListAdapter(mCountryList, this);
         mRecyclerView.setAdapter(mListAdapter);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -137,9 +137,9 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void updateCountries(List<Countries> countryList) {
-        int oldSize = mCountriesList.size();
-        mCountriesList.addAll(countryList);
+    public void updateCountries(List<Country> countryList) {
+        int oldSize = mCountryList.size();
+        mCountryList.addAll(countryList);
         mListAdapter.notifyItemRangeInserted(oldSize, countryList.size());
     }
 
@@ -161,7 +161,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void onCountryClicked(View view, Countries country, int pos) {
+    public void onCountryClicked(View view, Country country, int pos) {
         Intent intent = new Intent(this, CountryDetailActivity.class);
         intent.putExtra(CountryDetailActivity.SELECTED_COUNTRY, new SelectedCountry(country.getName(), country.getAlpha2Code()));
 

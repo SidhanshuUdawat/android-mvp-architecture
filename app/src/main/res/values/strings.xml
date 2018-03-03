@@ -11,7 +11,7 @@
     <string name="OK">OK</string>
 
     <string name="please_wait">Please wait...</string>
-    <string name="please_wait_country">Please wait,\ndownloading list of countries.</string>
+    <string name="please_wait_country">Please wait,\ndownloading list of country.</string>
     <string name="please_wait_info">Please wait,\nfetching information.</string>
     <string name="no_internet_1">Oh no!</string>
     <string name="no_internet_2">No internet found. Check your\n connection or try again.</string>

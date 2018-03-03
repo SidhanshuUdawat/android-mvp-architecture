@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrydetails;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import rx.Observable;
@@ -18,7 +18,7 @@ public class CountryDetailInteractor implements CountryDetailMvp.Interactor {
     }
 
     @Override
-    public Observable<Countries> getCountry(SelectedCountry country) {
+    public Observable<Country> getCountry(SelectedCountry country) {
         return mLocalDataSource.getCountry(country);
     }
 }

@@ -2,7 +2,7 @@ package com.app.sid.funwithflags.view.countrydetails;
 
 import android.support.annotation.NonNull;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import rx.Subscriber;
@@ -45,7 +45,7 @@ public class CountryDetailPresenter {
         Subscription subscription = mInteractor.getCountry(mSelectedCountry)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Countries>() {
+                .subscribe(new Subscriber<Country>() {
                     @Override
                     public void onCompleted() {
 
@@ -57,24 +57,24 @@ public class CountryDetailPresenter {
                     }
 
                     @Override
-                    public void onNext(Countries countryDTO) {
+                    public void onNext(Country countryDTO) {
                         loadCountryDetails(countryDTO);
                     }
                 });
         mSubscriptions.add(subscription);
     }
 
-    public void loadCountryDetails(Countries countries) {
-        mView.setContinent(countries.getRegion());
-        mView.setSubRegion(countries.getSubregion());
-        mView.setCapital(countries.getCapital());
-        mView.setTerritory(countries.getArea());
-        mView.setPopulation(countries.getPopulation());
-        mView.setNativeName(countries.getNativeName());
-        mView.setLanguage(countries.getLang());
-        mView.setCurrency(countries.getCurrency());
-        mView.setDomain(countries.getDomain());
-        mView.setPinCode(countries.getPhonecode());
+    public void loadCountryDetails(Country country) {
+        mView.setContinent(country.getRegion());
+        mView.setSubRegion(country.getSubregion());
+        mView.setCapital(country.getCapital());
+        mView.setTerritory(country.getArea());
+        mView.setPopulation(country.getPopulation());
+        mView.setNativeName(country.getNativeName());
+        mView.setLanguage(country.getLang());
+        mView.setCurrency(country.getCurrency());
+        mView.setDomain(country.getDomain());
+        mView.setPinCode(country.getPhonecode());
     }
 
     public void onWikiClicked() {

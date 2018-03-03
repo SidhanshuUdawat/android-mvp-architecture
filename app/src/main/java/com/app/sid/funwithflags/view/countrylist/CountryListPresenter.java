@@ -2,7 +2,7 @@ package com.app.sid.funwithflags.view.countrylist;
 
 import android.support.annotation.NonNull;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class CountryListPresenter {
             Subscription subscription = mInteractor.getCountryList()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<List<Countries>>() {
+                    .subscribe(new Subscriber<List<Country>>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -68,7 +68,7 @@ public class CountryListPresenter {
                         }
 
                         @Override
-                        public void onNext(List<Countries> countryDTOS) {
+                        public void onNext(List<Country> countryDTOS) {
                             loadCountries(countryDTOS);
                         }
                     });
@@ -82,7 +82,7 @@ public class CountryListPresenter {
         mView.showInternetError(true);
     }
 
-    private void loadCountries(List<Countries> countries) {
+    private void loadCountries(List<Country> countries) {
         mView.updateCountries(countries);
         mView.showProgress(false);
     }

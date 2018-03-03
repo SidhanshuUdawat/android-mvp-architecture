@@ -3,7 +3,7 @@ package com.app.sid.funwithflags.view.countrydetails;
 import android.support.annotation.NonNull;
 
 import com.app.sid.funwithflags.data.database.loader.CountriesDataLoader;
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
 import rx.Observable;
@@ -22,7 +22,7 @@ public class CountryDetailLocalDataSource implements CountryDetailMvp.LocalDataS
     }
 
     @Override
-    public Observable<Countries> getCountry(SelectedCountry country) {
+    public Observable<Country> getCountry(SelectedCountry country) {
         return countriesDataLoader.getCountry(country);
     }
 }

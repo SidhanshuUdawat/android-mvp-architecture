@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.model.api;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ import rx.Observable;
 public interface CountryRequestsInterface {
 
     @GET("all")
-    Observable<List<Countries>> getCountries();
+    Observable<List<Country>> getCountries();
 }

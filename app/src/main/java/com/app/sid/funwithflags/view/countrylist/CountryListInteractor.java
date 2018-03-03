@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import java.util.List;
 
@@ -23,19 +23,19 @@ public class CountryListInteractor implements CountryListMvp.Interactor {
     }
 
     @Override
-    public Observable<List<Countries>> getCountryList() {
+    public Observable<List<Country>> getCountryList() {
         if (mLocalDataSource.isLocalDataPresent()) {
             return mLocalDataSource.getCountryList();
         } else {
             return mRemoteDataSource.getCountryList()
-                    .flatMap(new Func1<List<Countries>, Observable<Countries>>() {
+                    .flatMap(new Func1<List<Country>, Observable<Country>>() {
                         @Override
-                        public Observable<Countries> call(List<Countries> countries) {
+                        public Observable<Country> call(List<Country> countries) {
                             return Observable.from(countries)
-                                    .doOnNext(new Action1<Countries>() {
+                                    .doOnNext(new Action1<Country>() {
                                         @Override
-                                        public void call(Countries countries) {
-                                            mLocalDataSource.saveCountry(countries);
+                                        public void call(Country country) {
+                                            mLocalDataSource.saveCountry(country);
                                         }
                                     });
                         }

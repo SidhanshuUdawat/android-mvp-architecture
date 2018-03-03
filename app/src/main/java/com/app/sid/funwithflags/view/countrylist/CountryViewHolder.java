@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 public class CountryViewHolder extends RecyclerView.ViewHolder implements CountryViewHolderMvp.View {
 
     interface OnCountryViewHolderInteraction {
-        void onCountryClicked(View v, Countries countryModel, int pos);
+        void onCountryClicked(View v, Country countryModel, int pos);
     }
 
     private View mItemView;
@@ -50,7 +50,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
         mListener = listener;
     }
 
-    public void bind(Countries country) {
+    public void bind(Country country) {
         mPresenter.bind(country);
         mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +112,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
     }
 
     @Override
-    public void onCountryClicked(Countries countryModel, int pos) {
+    public void onCountryClicked(Country countryModel, int pos) {
         mListener.onCountryClicked(itemView, countryModel, pos);
     }
 }

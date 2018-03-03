@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.model.api.CountryApi;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class CountryRemoteDataSource implements CountryListMvp.RemoteDataSource 
     }
 
     @Override
-    public Observable<List<Countries>> getCountryList() {
+    public Observable<List<Country>> getCountryList() {
         return mCountryApi.getCountries();
     }
 }

@@ -2,14 +2,16 @@ package com.app.sid.funwithflags.view.countrylist;
 
 import android.support.annotation.NonNull;
 
-import com.app.sid.funwithflags.constants.AppConst;
 import com.app.sid.funwithflags.data.database.loader.CountriesDataLoader;
-import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
+import com.app.sid.funwithflags.model.realm.RealmCountry;
 import com.app.sid.funwithflags.realm.RealmManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.Observable;
 
 /**
@@ -20,11 +22,11 @@ public class CountryLocalDataSource implements CountryListMvp.LocalDataSource {
 
     @NonNull
     private final CountriesDataLoader countriesDataLoader;
-    private RealmManager mRealmManager;
+    private RealmManager mRealManager;
 
     public CountryLocalDataSource(RealmManager realmManager) {
         countriesDataLoader = new CountriesDataLoader();
-        mRealmManager = realmManager;
+        mRealManager = realmManager;
     }
 
     @Override
@@ -33,88 +35,38 @@ public class CountryLocalDataSource implements CountryListMvp.LocalDataSource {
     }
 
     @Override
-    public Observable<List<Countries>> getCountryList() {
-        return countriesDataLoader.getAllCountries();
+    public Observable<List<Country>> getCountryList() {
+        List<Country> mCountries = new ArrayList<>();
+        Realm realm = mRealManager.getRealm();
+        try {
+            RealmResults<RealmCountry> realmCountry = realm.where(RealmCountry.class).findAll();
+            if (realmCountry != null) {
+                for (int i = 0; i < realmCountry.size(); i++) {
+                    mCountries.add(realmCountry.get(i).asApiModel());
+                }
+            }
+            return Observable.just(mCountries);
+        } finally {
+            mRealManager.closeRealm(realm);
+        }
     }
 
     @Override
-    public void saveCountry(Countries country) {
-        StringBuilder languages = new StringBuilder();
-        StringBuilder currencies = new StringBuilder();
-        StringBuilder domain = new StringBuilder();
-        StringBuilder callingCode = new StringBuilder();
-
-        if (country.getLanguages() != null) {
-            for (int i = 0; i < country.getLanguages().size(); i++) {
-                if (languages.length() > 0) {
-                    languages.append(", ").append(country.getLanguages().get(i).getName())
-                            .append(" / ").append(country.getLanguages().get(i).getNativeName());
-                } else {
-                    languages.append(country.getLanguages().get(i).getName())
-                            .append(" / ").append(country.getLanguages().get(i).getNativeName());
+    public void saveCountry(Country country) {
+        final RealmCountry realmCountryToStore = new RealmCountry(country);
+        Realm realm = mRealManager.getRealm();
+        try {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmCountry realmCountry = realm.where(RealmCountry.class).findFirst();
+                    if (realmCountry == null) {
+                        realm.copyToRealmOrUpdate(realmCountryToStore);
+                    }
                 }
-            }
+            });
+        } finally {
+            mRealManager.closeRealm(realm);
         }
-
-        if (country.getCurrencies() != null) {
-            for (int i = 0; i < country.getCurrencies().size(); i++) {
-                if (currencies.length() > 0) {
-                    currencies.append(", ").append(country.getCurrencies().get(i).getName())
-                            .append(" - ").append(country.getCurrencies().get(i).getSymbol());
-                } else {
-                    currencies.append(country.getCurrencies().get(i).getName())
-                            .append(" - ").append(country.getCurrencies().get(i).getSymbol());
-                }
-            }
-        }
-
-        if (country.getTopLevelDomain() != null) {
-            for (int i = 0; i < country.getTopLevelDomain().size(); i++) {
-                if (domain.length() > 0) {
-                    domain.append(", ").append(country.getTopLevelDomain().get(i));
-
-                } else {
-                    domain.append(country.getTopLevelDomain().get(i));
-                }
-            }
-        }
-
-        if (country.getCallingCodes() != null) {
-            for (int i = 0; i < country.getCallingCodes().size(); i++) {
-                if (callingCode.length() > 0) {
-                    callingCode.append(", ").append(country.getCallingCodes().get(i));
-
-                } else {
-                    callingCode.append(country.getCallingCodes().get(i));
-                }
-            }
-        }
-
-
-        if (languages.length() > 0) {
-            country.setLang(languages.toString());
-        } else {
-            country.setLang(AppConst.NA);
-        }
-
-        if (currencies.length() > 0) {
-            country.setCurrency(currencies.toString());
-        } else {
-            country.setCurrency(AppConst.NA);
-        }
-
-        if (domain.length() > 0) {
-            country.setDomain(domain.toString());
-        } else {
-            country.setDomain(AppConst.NA);
-        }
-
-        if (callingCode.length() > 0) {
-            country.setPhonecode(callingCode.toString());
-        } else {
-            country.setPhonecode(AppConst.NA);
-        }
-
-        countriesDataLoader.insert(country, CountriesTableSchema.TABLE);
     }
 }

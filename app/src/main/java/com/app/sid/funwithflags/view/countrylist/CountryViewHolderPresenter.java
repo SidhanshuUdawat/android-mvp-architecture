@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 /**
  * Created by Sidhanshu Udawat on 20-Jan-18.
@@ -10,14 +10,14 @@ public class CountryViewHolderPresenter {
 
     private static String FLAG_URL = "http://www.geonames.org/flags/l/%s.gif";
     private CountryViewHolderMvp.View mView;
-    private Countries mCountry;
+    private Country mCountry;
     private String mFlagURL;
 
     public CountryViewHolderPresenter(CountryViewHolderMvp.View view) {
         this.mView = view;
     }
 
-    public void bind(Countries country) {
+    public void bind(Country country) {
         mCountry = country;
         mFlagURL = String.format(FLAG_URL, mCountry.getAlpha2Code().toLowerCase());
         setCountry();

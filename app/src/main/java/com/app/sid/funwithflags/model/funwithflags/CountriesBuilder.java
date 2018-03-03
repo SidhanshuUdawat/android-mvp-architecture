@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.model.funwithflags;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.Currency;
 import com.app.sid.funwithflags.datasets.remote.Language;
 import com.app.sid.funwithflags.datasets.remote.RegionalBloc;
@@ -148,8 +148,8 @@ public class CountriesBuilder {
     }
 
 
-    public Countries createCountries() {
-        return new Countries(this);
+    public Country createCountries() {
+        return new Country(this);
     }
 
     public String getName() {

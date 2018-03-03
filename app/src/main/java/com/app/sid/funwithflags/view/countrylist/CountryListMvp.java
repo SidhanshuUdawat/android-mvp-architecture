@@ -1,6 +1,6 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import com.app.sid.funwithflags.datasets.remote.Countries;
+import com.app.sid.funwithflags.datasets.remote.Country;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface CountryListMvp {
 
         boolean isInternetAvailable();
 
-        void updateCountries(List<Countries> countries);
+        void updateCountries(List<Country> countries);
 
         void onQueryTextSubmit(String query);
 
@@ -23,18 +23,18 @@ public interface CountryListMvp {
     }
 
     interface Interactor {
-        Observable<List<Countries>> getCountryList();
+        Observable<List<Country>> getCountryList();
     }
 
     interface RemoteDataSource {
-        Observable<List<Countries>> getCountryList();
+        Observable<List<Country>> getCountryList();
     }
 
     interface LocalDataSource {
         boolean isLocalDataPresent();
 
-        Observable<List<Countries>> getCountryList();
+        Observable<List<Country>> getCountryList();
 
-        void saveCountry(Countries country);
+        void saveCountry(Country country);
     }
 }
