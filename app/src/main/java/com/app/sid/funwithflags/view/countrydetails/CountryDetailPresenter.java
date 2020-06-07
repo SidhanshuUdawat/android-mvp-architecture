@@ -3,8 +3,6 @@ package com.app.sid.funwithflags.view.countrydetails;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 
