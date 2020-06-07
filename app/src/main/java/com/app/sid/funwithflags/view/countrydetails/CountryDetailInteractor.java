@@ -13,8 +13,8 @@ public class CountryDetailInteractor implements CountryDetailMvp.Interactor {
 
     private final CountryDetailMvp.LocalDataSource mLocalDataSource;
 
-    public CountryDetailInteractor() {
-        mLocalDataSource = new CountryDetailLocalDataSource();
+    public CountryDetailInteractor(CountryDetailMvp.LocalDataSource localDataSource) {
+        mLocalDataSource = localDataSource;
     }
 
     @Override

@@ -23,7 +23,7 @@ import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
 import com.app.sid.funwithflags.di.components.DaggerCountriesComponent;
-import com.app.sid.funwithflags.di.modules.CountriesModule;
+import com.app.sid.funwithflags.di.modules.CountryListModule;
 import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.DividerItemDecoration;
@@ -73,9 +73,10 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
         ApplicationBaseComponent applicationBaseComponent = ((FunWithFlagsApplication) getApplication()).getApplicationComponent();
         DaggerCountriesComponent.builder()
                 .applicationBaseComponent(applicationBaseComponent)
-                .countriesModule(new CountriesModule(this))
+                .countryListModule(new CountryListModule(this))
                 .build()
                 .inject(this);
+
         mPresenter.init();
     }
 

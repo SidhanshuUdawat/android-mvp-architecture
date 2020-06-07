@@ -2,7 +2,6 @@ package com.app.sid.funwithflags.view.countrydetails;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +13,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
+import com.app.sid.funwithflags.di.components.DaggerCountryDetailComponent;
+import com.app.sid.funwithflags.di.modules.CountryDetailsModule;
+import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.view.wikiview.WikiActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +73,8 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     private Unbinder unbinder;
 
-    private CountryDetailPresenter mPresenter;
+    @Inject
+    public CountryDetailPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +83,17 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         SelectedCountry selectedCountry = getIntent().getParcelableExtra(SELECTED_COUNTRY);
         initToolbar(selectedCountry.getName());
         unbinder = ButterKnife.bind(this);
-        mPresenter = new CountryDetailPresenter(this, selectedCountry);
-        mPresenter.init();
+        initPresenter(selectedCountry);
+    }
+
+    private void initPresenter(SelectedCountry selectedCountry) {
+        ApplicationBaseComponent applicationBaseComponent = ((FunWithFlagsApplication) getApplication()).getApplicationComponent();
+        DaggerCountryDetailComponent.builder()
+                .applicationBaseComponent(applicationBaseComponent)
+                .countryDetailsModule(new CountryDetailsModule(this))
+                .build()
+                .inject(this);
+        mPresenter.init(selectedCountry);
     }
 
     private void initToolbar(String countryName) {
@@ -90,14 +105,8 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    this.supportFinishAfterTransition();
-                } else {
-                    this.finish();
-                }
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            this.supportFinishAfterTransition();
         }
         return super.onOptionsItemSelected(item);
     }

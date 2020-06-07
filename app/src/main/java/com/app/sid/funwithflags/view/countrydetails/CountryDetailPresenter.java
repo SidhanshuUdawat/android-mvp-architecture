@@ -1,6 +1,8 @@
 package com.app.sid.funwithflags.view.countrydetails;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.app.sid.funwithflags.datasets.remote.Country;
@@ -16,25 +18,22 @@ import rx.subscriptions.CompositeSubscription;
 public class CountryDetailPresenter {
 
     private static final String FLAG_URL = "http://www.geonames.org/flags/x/%s.gif";
-    @NonNull
     private final CountryDetailMvp.View mView;
-    @NonNull
     private final CountryDetailMvp.Interactor mInteractor;
-    @NonNull
     private CompositeSubscription mSubscriptions;
     protected SelectedCountry mSelectedCountry;
     protected String mFlagURL;
 
-    public CountryDetailPresenter(@NonNull CountryDetailMvp.View view, SelectedCountry selectedCountry) {
+    public CountryDetailPresenter(CountryDetailMvp.View view, CountryDetailMvp.Interactor interactor) {
         mView = view;
-        mInteractor = new CountryDetailInteractor();
+        mInteractor = interactor;
         mSubscriptions = new CompositeSubscription();
-        mSelectedCountry = selectedCountry;
-        mFlagURL = String.format(FLAG_URL, mSelectedCountry.getAlpha2Code().toLowerCase());
     }
 
 
-    public void init() {
+    public void init(SelectedCountry selectedCountry) {
+        mSelectedCountry = selectedCountry;
+        mFlagURL = String.format(FLAG_URL, selectedCountry.getAlpha2Code().toLowerCase());
         loadCachedFlag();
         getCountry();
     }
@@ -52,7 +51,7 @@ public class CountryDetailPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("Detail", "Error fetching country", e);
                     }
 
                     @Override

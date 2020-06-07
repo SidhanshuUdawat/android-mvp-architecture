@@ -1,18 +1,18 @@
 package com.app.sid.funwithflags.di.components;
 
-import com.app.sid.funwithflags.di.modules.CountryListModule;
+import com.app.sid.funwithflags.di.modules.CountryDetailsModule;
 import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.di.scopes.PerActivity;
-import com.app.sid.funwithflags.view.countrylist.CountryListActivity;
+import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity;
 
 import dagger.Component;
 
 @PerActivity
 @Component(
         dependencies = {ApplicationBaseComponent.class},
-        modules = {CountryListModule.class})
+        modules = {CountryDetailsModule.class})
 
-public interface CountriesComponent {
-    void inject(CountryListActivity exploreView);
+public interface CountryDetailComponent {
+    void inject(CountryDetailActivity view);
 }
 

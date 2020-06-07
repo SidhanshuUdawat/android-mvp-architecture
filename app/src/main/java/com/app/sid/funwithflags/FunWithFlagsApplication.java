@@ -1,8 +1,6 @@
 package com.app.sid.funwithflags;
 
 import android.app.Application;
-
-import com.app.sid.funwithflags.data.database.DatabaseManager;
 import com.app.sid.funwithflags.di.components.DaggerApplicationComponent;
 import com.app.sid.funwithflags.di.modules.ApplicationModule;
 import com.app.sid.funwithflags.di.modules.RealmManagerModule;
@@ -20,7 +18,6 @@ public class FunWithFlagsApplication extends Application {
         super.onCreate();
         createAppComponent();
         PrefManager.getInstance().initPref(this);
-        DatabaseManager.getInstance().initDatabase(this);
         Connectivity.getInstance().initConnectivity(this);
         setupRealm();
     }

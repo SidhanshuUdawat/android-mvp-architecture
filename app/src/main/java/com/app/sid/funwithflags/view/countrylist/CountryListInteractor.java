@@ -28,18 +28,8 @@ public class CountryListInteractor implements CountryListMvp.Interactor {
             return mLocalDataSource.getCountryList();
         } else {
             return mRemoteDataSource.getCountryList()
-                    .flatMap(new Func1<List<Country>, Observable<Country>>() {
-                        @Override
-                        public Observable<Country> call(List<Country> countries) {
-                            return Observable.from(countries)
-                                    .doOnNext(new Action1<Country>() {
-                                        @Override
-                                        public void call(Country country) {
-                                            mLocalDataSource.saveCountry(country);
-                                        }
-                                    });
-                        }
-                    }).toList();
+                    .flatMap(countries -> Observable.from(countries).doOnNext(mLocalDataSource::saveCountry))
+                    .toList();
         }
     }
 }

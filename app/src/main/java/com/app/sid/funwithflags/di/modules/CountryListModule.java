@@ -15,11 +15,11 @@ import dagger.Provides;
  * Created by Sidhanshu Udawat on 27-Jan-18.
  */
 @Module
-public class CountriesModule {
+public class CountryListModule {
 
     CountryListMvp.View mView;
 
-    public CountriesModule(CountryListMvp.View view) {
+    public CountryListModule(CountryListMvp.View view) {
         mView = view;
     }
 
