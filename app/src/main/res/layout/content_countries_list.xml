@@ -8,7 +8,7 @@
     tools:context="com.app.sid.funwithflags.view.countrylist.CountryListActivity"
     tools:showIn="@layout/activity_country_list">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_countries"
         android:name="com.app.marketi.mcdcoop.view.events.EventFragment"
         android:layout_width="match_parent"

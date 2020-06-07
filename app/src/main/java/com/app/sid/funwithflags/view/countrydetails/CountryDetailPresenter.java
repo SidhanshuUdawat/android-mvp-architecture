@@ -12,8 +12,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 
 public class CountryDetailPresenter {
 
@@ -28,7 +26,7 @@ public class CountryDetailPresenter {
     protected String mFlagURL;
 
     public CountryDetailPresenter(@NonNull CountryDetailMvp.View view, SelectedCountry selectedCountry) {
-        mView = checkNotNull(view, "view cannot be null!");
+        mView = view;
         mInteractor = new CountryDetailInteractor();
         mSubscriptions = new CompositeSubscription();
         mSelectedCountry = selectedCountry;

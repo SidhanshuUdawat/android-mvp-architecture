@@ -18,7 +18,6 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.IdlingResource;
 
 import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
@@ -29,7 +28,6 @@ import com.app.sid.funwithflags.di.modules.CountriesModule;
 import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.DividerItemDecoration;
-import com.app.sid.funwithflags.utils.EspressoIdlingResource;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity;
 
 import java.util.ArrayList;
@@ -102,11 +100,6 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-    @VisibleForTesting
-    public IdlingResource getCountingIdlingResource() {
-        return EspressoIdlingResource.getIdlingResource();
     }
 
     @Override

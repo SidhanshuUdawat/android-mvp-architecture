@@ -13,8 +13,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Created by Sidhanshu Udawat on 19-Jan-18.
  */
@@ -29,7 +27,7 @@ public class CountryListPresenter {
     private final CountryListMvp.Interactor mInteractor;
 
     public CountryListPresenter(@NonNull CountryListMvp.View view, CountryListMvp.Interactor interactor) {
-        mView = checkNotNull(view, "view cannot be null!");
+        mView = view;
         mInteractor = interactor;
         mSubscriptions = new CompositeSubscription();
     }

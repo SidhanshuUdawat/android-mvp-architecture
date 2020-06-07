@@ -14,8 +14,6 @@ import com.app.sid.funwithflags.datasets.remote.Country;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
 
@@ -29,8 +27,8 @@ public class CountryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public CountryListAdapter(List<Country> countries,
                               OnCountryListAdapterInteraction listener) {
-        mValues = checkNotNull(countries);
-        mFilteredList = checkNotNull(countries);
+        mValues = countries;
+        mFilteredList = countries;
         mListener = listener;
     }
 

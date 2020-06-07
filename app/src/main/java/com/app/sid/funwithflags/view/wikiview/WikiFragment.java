@@ -20,8 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 
 public class WikiFragment extends Fragment implements WikiContract.View {
 
@@ -144,7 +142,7 @@ public class WikiFragment extends Fragment implements WikiContract.View {
 
     @Override
     public void setPresenter(WikiContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override
