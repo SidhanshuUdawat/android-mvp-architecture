@@ -6,7 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
 import com.app.sid.funwithflags.utils.pref.PrefManager;

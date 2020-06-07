@@ -1,6 +1,7 @@
 package com.app.sid.funwithflags.view.countrydetails;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;

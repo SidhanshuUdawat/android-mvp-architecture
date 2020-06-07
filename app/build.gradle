@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.app.sid.funwithflags"
         minSdkVersion rootProject.minSdkVersion
@@ -13,6 +13,7 @@ android {
         testHandleProfiling true
         testFunctionalTest true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         debug {
@@ -28,81 +29,87 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    buildToolsVersion '26.0.2'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     // App Dependencies
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
 
-    compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    compile "com.google.guava:guava:$rootProject.guavaVersion"
+    implementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+    implementation "com.google.guava:guava:$rootProject.guavaVersion"
 
     //RxJava
-    compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
-    compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
+    implementation "io.reactivex:rxjava:$rootProject.rxjavaVersion"
+    implementation "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
 
     //Retrofit
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
 
-    compile("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion") {
+    implementation("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
-    compile "com.squareup.okhttp:okhttp:$rootProject.okhttpVersion"
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    implementation "com.squareup.okhttp:okhttp:$rootProject.okhttpVersion"
 
-    //Dependency injection
-    compile "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
-    compile 'com.google.dagger:dagger:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    //Dagger
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
-    compile "org.apache.httpcomponents:httpcore:$rootProject.apacheVersion"
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "org.apache.httpcomponents:httpcore:$rootProject.apacheVersion"
 
     //Testing
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.easytesting:fest:1.0.16'
-    testCompile 'org.mockito:mockito-core:2.2.0'
-    testCompile "com.android.support:support-v4:$supportLibraryVersion"
-    testCompile 'org.json:json:20160810'
-    testCompile('com.squareup:fest-android:1.0.8') {
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.easytesting:fest:1.0.16'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation "com.android.support:support-v4:$supportLibraryVersion"
+    testImplementation 'org.json:json:20200518'
+    testImplementation('com.squareup:fest-android:1.0.8') {
         exclude module: 'support-v4'
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
     //UI testing
-    androidTestCompile('com.github.andrzejchm.RESTMock:android:0.2.2') {
+    androidTestImplementation('com.github.andrzejchm.RESTMock:android:0.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.squareup.okio', module: 'okio'
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
-    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1') {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile('com.android.support.test:runner:1.0.1') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-    androidTestCompile("com.android.support.test.espresso:espresso-intents:3.0.1") {
+    androidTestImplementation('com.android.support.test:runner:1.0.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    androidTestImplementation("com.android.support.test.espresso:espresso-intents:3.0.2") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 
-    androidTestCompile('com.squareup:fest-android:1.0.8') {
+    androidTestImplementation('com.squareup:fest-android:1.0.8') {
         exclude module: 'support-v4'
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }

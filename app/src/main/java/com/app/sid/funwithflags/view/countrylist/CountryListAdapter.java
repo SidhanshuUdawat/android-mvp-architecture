@@ -1,11 +1,12 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.Country;

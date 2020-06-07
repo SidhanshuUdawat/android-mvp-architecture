@@ -2,8 +2,6 @@ package com.app.sid.funwithflags.view.wikiview;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +9,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import androidx.fragment.app.Fragment;
+
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.utils.ProgressHelper;
 import com.app.sid.funwithflags.utils.AppUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

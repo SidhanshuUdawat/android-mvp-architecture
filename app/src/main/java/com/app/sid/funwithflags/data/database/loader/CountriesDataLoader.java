@@ -2,16 +2,13 @@ package com.app.sid.funwithflags.data.database.loader;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import com.app.sid.funwithflags.data.database.DatabaseManager;
 import com.app.sid.funwithflags.data.database.schema.CountriesTableSchema;
 import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import rx.Observable;
 import rx.functions.Func1;
 

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +16,6 @@ import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.view.wikiview.WikiActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -120,7 +121,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     @Override
     public void loadCachedFlag(String url) {
-        Picasso.with(this)
+        Picasso.get()
                 .load(url)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(mFlagImage, new Callback() {
@@ -130,7 +131,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         mPresenter.onCachedFlagLoadingFailed();
                     }
                 });
@@ -138,7 +139,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
 
     @Override
     public void loadFlag(String url) {
-        Picasso.with(this)
+        Picasso.get()
                 .load(url)
                 .error(R.drawable.flag_ind)
                 .into(mFlagImage, new Callback() {
@@ -148,7 +149,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         mPresenter.onFlagLoadingFailed();
                     }
                 });

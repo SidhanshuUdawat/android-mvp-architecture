@@ -1,10 +1,12 @@
 package com.app.sid.funwithflags.view.countrylist;
 
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.Country;
@@ -77,7 +79,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
 
     @Override
     public void setCachedFlagImage(String url) {
-        Picasso.with(itemView.getContext())
+        Picasso.get()
                 .load(url)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(mImgFlag, new Callback() {
@@ -87,7 +89,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         mPresenter.onCachedFlagLoadingFailed();
                     }
                 });
@@ -95,7 +97,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
 
     @Override
     public void setFlagImage(String url) {
-        Picasso.with(itemView.getContext())
+        Picasso.get()
                 .load(url)
                 .error(R.drawable.flag_ind)
                 .into(mImgFlag, new Callback() {
@@ -105,7 +107,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder implements Countr
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         mPresenter.onFlagLoadingFailed();
                     }
                 });

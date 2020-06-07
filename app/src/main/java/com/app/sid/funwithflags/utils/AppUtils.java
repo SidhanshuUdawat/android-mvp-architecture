@@ -3,11 +3,11 @@ package com.app.sid.funwithflags.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.app.sid.funwithflags.R;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by sidhanshu.udawat
@@ -39,7 +39,7 @@ public class AppUtils {
         // Changing action button text color
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(sbView.getResources().getColor(R.color.colorAccent));
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) sbView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
 
         snackbar.show();

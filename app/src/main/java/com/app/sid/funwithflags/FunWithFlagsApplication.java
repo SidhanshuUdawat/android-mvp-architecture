@@ -9,7 +9,7 @@ import com.app.sid.funwithflags.di.modules.RealmManagerModule;
 import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.pref.PrefManager;
-import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class FunWithFlagsApplication extends Application {
@@ -22,7 +22,7 @@ public class FunWithFlagsApplication extends Application {
         super.onCreate();
         createAppComponent();
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
+        builder.downloader(new OkHttp3Downloader(this, Integer.MAX_VALUE));
         Picasso built = builder.build();
         built.setIndicatorsEnabled(false);
         built.setLoggingEnabled(true);

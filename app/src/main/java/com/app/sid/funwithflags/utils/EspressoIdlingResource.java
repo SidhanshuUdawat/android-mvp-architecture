@@ -16,7 +16,7 @@
 
 package com.app.sid.funwithflags.utils;
 
-import android.support.test.espresso.IdlingResource;
+import androidx.test.espresso.IdlingResource;
 
 /**
  * Contains a static reference to {@link IdlingResource}
