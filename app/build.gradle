@@ -15,7 +15,7 @@ android {
         versionName "1.0"
         testHandleProfiling true
         testFunctionalTest true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary true
     }
     buildTypes {
@@ -59,17 +59,22 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.rxjavaVersion"
     implementation "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
 
-    //Retrofit
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation("com.squareup.sqlbrite:sqlbrite:$rootProject.sqlbriteVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
-    implementation "com.squareup.okhttp:okhttp:$rootProject.okhttpVersion"
 
     //Dagger
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -77,6 +82,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
     implementation "org.apache.httpcomponents:httpcore:$rootProject.apacheVersion"

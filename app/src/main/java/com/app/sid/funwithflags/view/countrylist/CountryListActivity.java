@@ -18,13 +18,9 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.Country;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-import com.app.sid.funwithflags.di.components.DaggerCountriesComponent;
-import com.app.sid.funwithflags.di.modules.CountryListModule;
-import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.utils.Connectivity;
 import com.app.sid.funwithflags.utils.DividerItemDecoration;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity;
@@ -70,13 +66,6 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     private void initPresenter() {
-        ApplicationBaseComponent applicationBaseComponent = ((FunWithFlagsApplication) getApplication()).getApplicationComponent();
-        DaggerCountriesComponent.builder()
-                .applicationBaseComponent(applicationBaseComponent)
-                .countryListModule(new CountryListModule(this))
-                .build()
-                .inject(this);
-
         mPresenter.init();
     }
 

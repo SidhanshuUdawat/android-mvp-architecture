@@ -1,23 +1,14 @@
 package com.app.sid.funwithflags.di.modules;
 
-import com.app.sid.funwithflags.model.api.CountryApi;
 import com.app.sid.funwithflags.realm.RealmManager;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailInteractor;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailLocalDataSource;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailMvp;
 import com.app.sid.funwithflags.view.countrydetails.CountryDetailPresenter;
-import com.app.sid.funwithflags.view.countrylist.CountryListInteractor;
-import com.app.sid.funwithflags.view.countrylist.CountryListMvp;
-import com.app.sid.funwithflags.view.countrylist.CountryListPresenter;
-import com.app.sid.funwithflags.view.countrylist.CountryLocalDataSource;
-import com.app.sid.funwithflags.view.countrylist.CountryRemoteDataSource;
 
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sidhanshu Udawat on 27-Jan-18.
- */
 @Module
 public class CountryDetailsModule {
 
