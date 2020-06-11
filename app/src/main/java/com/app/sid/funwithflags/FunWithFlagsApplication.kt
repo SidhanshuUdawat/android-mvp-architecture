@@ -1,7 +1,6 @@
 package com.app.sid.funwithflags
 
 import com.app.sid.funwithflags.di.components.DaggerApplicationComponent
-import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent
 import com.app.sid.funwithflags.utils.Connectivity
 import com.app.sid.funwithflags.utils.pref.PrefManager
 import dagger.android.AndroidInjector

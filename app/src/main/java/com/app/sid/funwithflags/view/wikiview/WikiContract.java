@@ -1,11 +1,8 @@
 package com.app.sid.funwithflags.view.wikiview;
 
-import com.app.sid.funwithflags.view.base.BasePresenter;
-import com.app.sid.funwithflags.view.base.BaseView;
-
 public interface WikiContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View {
         void showProgress();
 
         void hideProgress();
@@ -13,11 +10,9 @@ public interface WikiContract {
         boolean isActive();
 
         boolean isGoBack();
-
     }
 
-    interface Presenter extends BasePresenter {
-
+    interface Presenter {
         boolean isGoBack();
     }
 }

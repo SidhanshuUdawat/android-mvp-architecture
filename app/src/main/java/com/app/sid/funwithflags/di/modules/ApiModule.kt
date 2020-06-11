@@ -27,6 +27,7 @@ class ApiModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
             Retrofit.Builder()
+                    .baseUrl("www.t")
                     .client(okHttpClient)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()

@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.app.sid.funwithflags.FunWithFlagsApplication;
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-import com.app.sid.funwithflags.di.components.DaggerCountryDetailComponent;
 import com.app.sid.funwithflags.di.modules.CountryDetailsModule;
-import com.app.sid.funwithflags.di.provider.ApplicationBaseComponent;
 import com.app.sid.funwithflags.view.wikiview.WikiActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -83,16 +81,6 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         SelectedCountry selectedCountry = getIntent().getParcelableExtra(SELECTED_COUNTRY);
         initToolbar(selectedCountry.getName());
         unbinder = ButterKnife.bind(this);
-        initPresenter(selectedCountry);
-    }
-
-    private void initPresenter(SelectedCountry selectedCountry) {
-        ApplicationBaseComponent applicationBaseComponent = ((FunWithFlagsApplication) getApplication()).getApplicationComponent();
-        DaggerCountryDetailComponent.builder()
-                .applicationBaseComponent(applicationBaseComponent)
-                .countryDetailsModule(new CountryDetailsModule(this))
-                .build()
-                .inject(this);
         mPresenter.init(selectedCountry);
     }
 

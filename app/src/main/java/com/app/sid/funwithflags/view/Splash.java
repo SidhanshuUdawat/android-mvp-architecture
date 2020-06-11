@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.app.sid.funwithflags.R;
-import com.app.sid.funwithflags.view.base.BaseActivity;
 import com.app.sid.funwithflags.view.countrylist.CountryListActivity;
 
 

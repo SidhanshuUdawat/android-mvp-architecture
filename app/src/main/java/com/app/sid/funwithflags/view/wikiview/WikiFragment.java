@@ -84,32 +84,11 @@ public class WikiFragment extends Fragment implements WikiContract.View {
         return root;
     }
 
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.subscribe();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.unsubscribe();
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
     }
 
     @Override
@@ -139,19 +118,6 @@ public class WikiFragment extends Fragment implements WikiContract.View {
         }
     }
 
-
-    @Override
-    public void setPresenter(WikiContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
-    public void dispatchError(String error) {
-        hideProgress();
-        showMessage(error);
-    }
-
-    @Override
     public void dispatchError(int resId) {
         hideProgress();
         showMessage(getString(resId));

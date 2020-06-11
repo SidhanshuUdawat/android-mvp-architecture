@@ -1,6 +1,7 @@
 package com.app.sid.funwithflags.di.components
 
 import android.content.Context
+import com.app.sid.funwithflags.FunWithFlagModule
 import com.app.sid.funwithflags.FunWithFlagsApplication
 import com.app.sid.funwithflags.di.modules.ApiModule
 import com.app.sid.funwithflags.di.modules.ApplicationModule
@@ -15,7 +16,8 @@ import javax.inject.Singleton
         modules = [
             ApplicationModule::class,
             AndroidInjectionModule::class,
-            ApiModule::class
+            ApiModule::class,
+            FunWithFlagModule::class
         ]
 )
 interface ApplicationComponent : AndroidInjector<FunWithFlagsApplication> {
