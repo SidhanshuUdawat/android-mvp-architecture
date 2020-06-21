@@ -27,12 +27,12 @@ import com.app.sid.funwithflags.view.countrydetails.CountryDetailActivity
 import com.app.sid.funwithflags.view.countrylist.CountryListAdapter.OnCountryListAdapterInteraction
 import javax.inject.Inject
 
-internal class CountryListActivity : BaseActivity(), CountryListMvp.View, OnCountryListAdapterInteraction {
+class CountryListActivity : BaseActivity(), CountryListMvp.View, OnCountryListAdapterInteraction {
 
-    private val recyclerView = findViewById<RecyclerView>(R.id.list_countries)
-    private val noInternetConnection = findViewById<LinearLayout>(R.id.layout_no_internet)
-    private val progress = findViewById<LinearLayout>(R.id.loading_layout)
-    private val retryButton = findViewById<Button>(R.id.btn_retry)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var noInternetConnection: LinearLayout
+    private lateinit var progress: LinearLayout
+    private lateinit var retryButton: Button
 
     private lateinit var actionMenuItem: MenuItem
     private lateinit var searchView: SearchView
@@ -45,12 +45,20 @@ internal class CountryListActivity : BaseActivity(), CountryListMvp.View, OnCoun
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_country_list)
+        initView()
         initToolBar()
         initList()
         mPresenter.bind(this)
         retryButton.setOnClickListener {
             mPresenter.onRetry()
         }
+    }
+
+    private fun initView() {
+        recyclerView = findViewById(R.id.list_countries)
+        noInternetConnection = findViewById(R.id.layout_no_internet)
+        progress = findViewById(R.id.loading_layout)
+        retryButton = findViewById(R.id.btn_retry)
     }
 
     private fun initList() {

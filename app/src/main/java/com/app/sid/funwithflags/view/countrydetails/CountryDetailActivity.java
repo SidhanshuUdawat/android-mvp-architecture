@@ -3,20 +3,17 @@ package com.app.sid.funwithflags.view.countrydetails;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.sid.funwithflags.FunWithFlagsApplication;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.app.sid.funwithflags.R;
 import com.app.sid.funwithflags.datasets.remote.SelectedCountry;
-import com.app.sid.funwithflags.di.modules.CountryDetailsModule;
 import com.app.sid.funwithflags.view.wikiview.WikiActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;

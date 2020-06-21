@@ -43,7 +43,7 @@ class CountryListPresenter @Inject constructor(
                         }
 
                         override fun onNext(countries: List<Country?>?) {
-                            countries?.filterNotNull()?.let {
+                            countries?.takeIf { it.isNotEmpty() }?.filterNotNull()?.let {
                                 loadCountries(it)
                             }
                         }
